@@ -2,7 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const wsServer = require('ws').Server;
 const server = new wsServer({
-  port: 50001
+  port: 50001,
+  maxPayload: 1000
 });
 let lastID = 0;
 let msgHistory = new Array;
@@ -59,6 +60,10 @@ server.on('connection', (ws) => {
     msgHistory.push(data);
   });
 
+  ws.on('error', (err) => {
+    console.log(err)
+  })
+  
   ws.on('close', () => {});
 });
 
